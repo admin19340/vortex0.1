@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus Core - Espace Personnel</title>
+    <title>Nexus Core - Système de Fichiers</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -41,17 +41,15 @@
             background-attachment: fixed;
         }
 
-        .dashboard-container {
+        .container {
             width: 100%;
-            max-width: 900px;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 25px;
+            max-width: 800px;
         }
 
+        /* En-tête */
         .header {
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 30px;
         }
 
         .header h1 {
@@ -71,11 +69,12 @@
             letter-spacing: 0.5px;
         }
 
+        /* Cartes (Login et Panneaux) */
         .card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 16px;
-            padding: 30px;
+            padding: 35px;
             backdrop-filter: blur(16px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
         }
@@ -83,31 +82,31 @@
         .card:hover {
             border-color: var(--primary-color);
             box-shadow: 0 15px 40px var(--primary-glow);
-            transform: translateY(-3px);
         }
 
         .card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
+            font-size: 1.4rem;
+            margin-bottom: 25px;
             color: #fff;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
+        /* Formulaire */
         .input-group {
             position: relative;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .input-group input {
             width: 100%;
-            padding: 14px 18px;
+            padding: 15px 20px;
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             color: #fff;
-            font-size: 1rem;
+            font-size: 1.05rem;
             outline: none;
         }
 
@@ -117,14 +116,15 @@
             background: rgba(255, 255, 255, 0.06);
         }
 
+        /* Boutons */
         .btn {
             width: 100%;
-            padding: 14px;
+            padding: 15px;
             background: linear-gradient(90deg, var(--primary-color), #00c6ff);
             color: #050b14;
             border: none;
             border-radius: 8px;
-            font-size: 1rem;
+            font-size: 1.05rem;
             font-weight: 600;
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3);
@@ -142,7 +142,6 @@
             color: var(--text-color);
             box-shadow: none;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            margin-top: 10px;
         }
 
         .btn-secondary:hover {
@@ -150,14 +149,56 @@
             color: var(--bg-color);
         }
 
+        /* Système d'onglets (Navigation) */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+
+        .tab-btn.active {
+            color: #fff;
+            background: rgba(0, 242, 254, 0.1);
+            border: 1px solid var(--primary-color);
+            box-shadow: 0 0 8px var(--primary-glow);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Zone de fichier stylisée */
         .file-dropzone {
             border: 2px dashed var(--primary-color);
             border-radius: 12px;
-            padding: 35px 20px;
+            padding: 40px 20px;
             text-align: center;
             background: rgba(0, 242, 254, 0.02);
             cursor: pointer;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .file-dropzone:hover {
@@ -166,14 +207,16 @@
 
         .file-dropzone p {
             color: var(--primary-color);
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
         }
 
         .file-dropzone span {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
         }
 
+        /* Notification */
         #notification {
             position: fixed;
             bottom: 30px;
@@ -183,7 +226,7 @@
             padding: 15px 25px;
             border-radius: 8px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             transform: translateY(150px);
             opacity: 0;
             pointer-events: none;
@@ -196,56 +239,60 @@
             opacity: 1;
             pointer-events: auto;
         }
-
-        @media(min-width: 768px) {
-            .dashboard-container {
-                grid-template-columns: 1fr 1fr;
-            }
-            .header {
-                grid-column: span 2;
-            }
-            .card:last-child {
-                grid-column: span 2;
-            }
-        }
     </style>
 </head>
 <body>
 
-    <div class="dashboard-container">
-        <div class="header">
-            <h1>Nexus Core</h1>
-            <p>Système de gestion de fichiers et de sauvegarde • Cryptage Total</p>
-        </div>
-
-        <div class="card">
-            <h3>🔒 Accès au système</h3>
+    <div class="container">
+        
+        <div id="loginSection" class="card">
+            <div class="header">
+                <h1>Nexus Core</h1>
+                <p>Système de Sauvegarde et d'Archivage Crypté</p>
+            </div>
+            <h3>🔒 Authentification requise</h3>
             <div class="input-group">
                 <input type="email" placeholder="Identifiant (Email)" id="email">
             </div>
             <div class="input-group">
                 <input type="password" placeholder="Mot de passe" id="password">
             </div>
-            <button class="btn" onclick="login()">Connexion</button>
+            <button class="btn" onclick="login()">Se connecter</button>
         </div>
 
-        <div class="card">
-            <h3>📁 Explorateur & Sauvegarde</h3>
-            <div class="file-dropzone" onclick="document.getElementById('fileInput').click()">
-                <p>+ Sélectionner des fichiers</p>
-                <span>Glisser-déposer ou cliquer pour importer</span>
-                <input type="file" id="fileInput" style="display: none;" onchange="handleFileSelect()">
+        <div id="dashSection" style="display: none;">
+            
+            <div class="header">
+                <h1>Nexus Core</h1>
+                <p>Panneau d'administration principal</p>
             </div>
-            <button class="btn" onclick="uploadFile()">Envoyer vers le cloud</button>
+
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('files')">📁 Explorateur</button>
+                <button class="tab-btn" onclick="switchTab('options')">⚙️ Configuration</button>
+            </div>
+
+            <div id="tab-files" class="tab-content active card">
+                <h3>📁 Espace de sauvegarde</h3>
+                <div class="file-dropzone" onclick="document.getElementById('fileInput').click()">
+                    <p>+ Cliquer pour importer un fichier</p>
+                    <span>Glisser-déposer ou sélectionner depuis l'appareil</span>
+                    <input type="file" id="fileInput" style="display: none;" onchange="handleFileSelect()">
+                </div>
+                <button class="btn" onclick="uploadFile()">Envoyer vers le Cloud</button>
+            </div>
+
+            <div id="tab-options" class="tab-content card">
+                <h3>⚙️ Options Avancées</h3>
+                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <button class="btn btn-secondary" onclick="toggleDarkMode()">Mode Sombre / Clair</button>
+                    <button class="btn btn-secondary" onclick="backupSystem()">Sauvegarde Globale</button>
+                    <button class="btn btn-secondary" onclick="logout()" style="border-color: var(--danger-color); color: var(--danger-color);">Déconnexion</button>
+                </div>
+            </div>
+
         </div>
 
-        <div class="card">
-            <h3>⚙️ Options Avancées</h3>
-            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                <button class="btn btn-secondary" onclick="toggleDarkMode()">Activer Mode Sombre/Clair</button>
-                <button class="btn btn-secondary" onclick="backupSystem()">Forcer la Sauvegarde</button>
-            </div>
-        </div>
     </div>
 
     <div id="notification">Action exécutée avec succès !</div>
@@ -267,15 +314,46 @@
             }, 3500);
         }
 
+        // Connexion
         function login() {
             const email = document.getElementById("email").value;
             if (email === "") {
-                showNotification("Veuillez remplir les champs requis.", "error");
+                showNotification("Veuillez renseigner les champs.", "error");
             } else {
-                showNotification("Connexion aux serveurs Nexus en cours...");
+                // Masquer la connexion et afficher l'espace utilisateur
+                document.getElementById("loginSection").style.display = "none";
+                document.getElementById("dashSection").style.display = "block";
+                showNotification("Connexion établie avec succès.");
             }
         }
-        
+
+        // Déconnexion
+        function logout() {
+            document.getElementById("dashSection").style.display = "none";
+            document.getElementById("loginSection").style.display = "block";
+            showNotification("Déconnexion effectuée.");
+        }
+
+        // Gestion des onglets
+        function switchTab(tabName) {
+            // Désactiver tous les boutons et contenus
+            const buttons = document.querySelectorAll(".tab-btn");
+            const contents = document.querySelectorAll(".tab-content");
+
+            buttons.forEach(btn => btn.classList.remove("active"));
+            contents.forEach(content => content.classList.remove("active"));
+
+            // Activer l'élément ciblé
+            if (tabName === 'files') {
+                document.querySelectorAll(".tab-btn")[0].classList.add("active");
+                document.getElementById("tab-files").classList.add("active");
+            } else if (tabName === 'options') {
+                document.querySelectorAll(".tab-btn")[1].classList.add("active");
+                document.getElementById("tab-options").classList.add("active");
+            }
+        }
+
+        // Gestion du fichier
         function handleFileSelect() {
             const fileInput = document.getElementById("fileInput");
             if (fileInput.files.length > 0) {
@@ -285,13 +363,18 @@
 
         function uploadFile() {
             const fileInput = document.getElementById("fileInput");
-            if(fileInput.files.length === 0) {
-                showNotification("Aucun fichier sélectionné.", "error");
+            if (fileInput.files.length === 0) {
+                showNotification("Veuillez sélectionner un fichier avant l'envoi.", "error");
             } else {
-                showNotification("Fichier chiffré et transféré sur le serveur !");
+                showNotification("Fichier chiffré et transféré au serveur avec succès.");
             }
         }
 
+        function backupSystem() {
+            showNotification("⚠️ Sauvegarde globale initialisée avec succès !");
+        }
+
+        // Bascule de thème
         let isDark = true;
         function toggleDarkMode() {
             const root = document.documentElement;
@@ -300,20 +383,16 @@
                 root.style.setProperty('--card-bg', 'rgba(255, 255, 255, 0.7)');
                 root.style.setProperty('--border-color', 'rgba(0, 0, 0, 0.1)');
                 root.style.setProperty('--text-color', '#1e293b');
-                showNotification("Mode clair activé.");
+                showNotification("Passage en mode clair.");
                 isDark = false;
             } else {
                 root.style.setProperty('--bg-color', '#0a0e17');
                 root.style.setProperty('--card-bg', 'rgba(18, 24, 38, 0.7)');
                 root.style.setProperty('--border-color', 'rgba(0, 242, 254, 0.2)');
                 root.style.setProperty('--text-color', '#e2e8f0');
-                showNotification("Mode sombre activé.");
+                showNotification("Passage en mode sombre.");
                 isDark = true;
             }
-        }
-
-        function backupSystem() {
-            showNotification("⚠️ Sauvegarde globale initialisée avec succès !");
         }
     </script>
 </body>
